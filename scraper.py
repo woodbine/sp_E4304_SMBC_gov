@@ -96,7 +96,7 @@ soup = BeautifulSoup(html, 'lxml')
 
 #### SCRAPE DATA
 
-blocks = soup.find_all('table', attrs = {'style':'border: 1px solid #a9a9a9; width: 90%;'})
+blocks = soup.find_all('table')
 for block in blocks:
     links = block.find_all('a', href =True)
     for link in links:
@@ -104,6 +104,8 @@ for block in blocks:
             url = 'http://www.sefton.gov.uk' + link['href']
             csvMth = link.text.strip()[:3]
             csvYr = '20'+link.text.strip().split(u"\'")[-1][:2]
+            if '1' not in csvYr:
+                csvYr = '20'+link.text.strip().split(u" ")[1][:2]
             csvMth = convert_mth_strings(csvMth.upper())
             data.append([csvYr, csvMth, url])
 
