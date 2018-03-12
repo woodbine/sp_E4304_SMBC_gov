@@ -102,10 +102,9 @@ for block in blocks:
     for link in links:
         if '.csv' in link['href']:
             url = 'http://www.sefton.gov.uk' + link['href']
-            csvMth = link.text.strip()[:3]
-            csvYr = '20'+link.text.strip().split(u"\'")[-1][:2]
-            if '1' not in csvYr:
-                csvYr = '20'+link.text.strip().split(u" ")[1][:2]
+            csv_file = link.parent.find_previous('td').text
+            csvMth = csv_file[:3]
+            csvYr = csv_file[-4:]
             csvMth = convert_mth_strings(csvMth.upper())
             data.append([csvYr, csvMth, url])
 
@@ -131,4 +130,3 @@ if errors > 0:
 
 
 #### EOF
-
